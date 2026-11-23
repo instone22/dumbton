@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#efeee8">
+<title>쓸데없이 진지한 결석 합리적 연구소</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+:root{--ink:#20251f;--muted:#71776e;--paper:#fffefa;--canvas:#efeee8;--line:#e4e2d9;--green:#50684f;--soft:#f4f4ed}
+*{box-sizing:border-box}body{margin:0;padding:30px 15px;background:var(--canvas);color:var(--ink);font-family:'Noto Sans KR',sans-serif}button,textarea{font:inherit}
+.container{max-width:760px;margin:auto;background:var(--paper);padding:clamp(24px,6vw,52px);border:1px solid #e3e1d8;box-shadow:0 14px 50px #29291f0c}
+header{text-align:center;padding:4px 0 27px;border-bottom:1px solid var(--line)}.logo{font-size:10px;letter-spacing:3px;color:var(--green);font-weight:800}h1{font-size:clamp(25px,5vw,34px);line-height:1.42;margin:14px 0 8px;letter-spacing:-1.2px}.subtitle{margin:0;color:#92958c;font-size:11px;letter-spacing:2px}
+.intro{text-align:center;margin:25px auto;color:#64695f;line-height:1.9;font-size:14px}.section{margin-top:30px}.section-title{font-size:16px;font-weight:800;margin-bottom:12px;letter-spacing:-.3px}.section-title small{color:#a0a197;font-size:10px;letter-spacing:1px;margin-left:6px}
+.grade-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}.grade-card{padding:13px 8px;text-align:center;background:#f8f7f1;border:1px solid var(--line);border-radius:8px}.grade-card b{display:block;color:var(--green);font-size:20px}.grade-card span{display:block;margin-top:3px;font-size:10px;color:var(--muted)}
+textarea{width:100%;min-height:135px;resize:vertical;padding:16px;border:1px solid #d8d7ce;border-radius:7px;background:#fffefa;font-size:14px;line-height:1.8;outline:none}textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #50684f17}
+button{cursor:pointer}.primary,.secondary,.share-button{border:0;border-radius:7px;font-weight:700;transition:background .15s,transform .15s}.primary{width:100%;padding:15px;margin-top:16px;background:var(--ink);color:white}.primary:hover{background:#394338;transform:translateY(-1px)}.secondary{background:#eeede6;color:#4f544d;padding:12px 15px}.secondary:hover{background:#e2e1d8}
+.screen{display:none}.screen.active{display:block}.loading-screen{text-align:center;padding:68px 8px 72px}.loading-mark{width:58px;height:58px;margin:0 auto 22px;border:5px solid #e8e8df;border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-screen h2{font-size:23px;margin:0 0 9px}.loading-screen p{font-size:13px;color:var(--muted);margin:0 0 27px}.loading-track{max-width:440px;height:10px;margin:auto;background:#e8e8df;border-radius:20px;overflow:hidden}.loading-fill{height:100%;width:0;background:linear-gradient(90deg,#50684f,#91a17c);border-radius:20px;transition:width .15s linear}.loading-percent{font-size:13px;font-weight:800;color:var(--green);margin:10px 0 25px}.loading-screen .primary{max-width:300px;margin-top:0}.loading-screen .primary:disabled{opacity:.45;cursor:wait;transform:none}
+.report-header{text-align:center;margin-bottom:26px}.report-header small{color:#8d9288;letter-spacing:2px;font-size:10px}.report-header h2{font-size:21px;margin:9px 0}.report-header p{margin:0;color:#9b9d95;font-size:11px}.reason-box{background:#f6f5ef;padding:18px;border-left:3px solid var(--green);border-radius:0 6px 6px 0;line-height:1.85;font-size:14px;white-space:pre-wrap;word-break:break-word}
+.score-item{margin:20px 0}.score-label{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700;margin-bottom:8px}.score-label span:last-child{color:var(--green)}.progress{height:8px;background:#e9e8e1;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#71876a,#c1a66a);border-radius:20px;transition:width .8s ease}
+.verdict{text-align:center;background:var(--soft);padding:23px 18px;margin-top:27px;border-radius:9px;border:1px solid #e7e7dc}.verdict-kicker{font-size:10px;color:#82877d;letter-spacing:2px}.grade{font-size:52px;line-height:1;font-weight:800;color:var(--green);margin:12px 0 6px}.verdict-title{font-size:18px;font-weight:800}.grade-description{font-size:13px;line-height:1.8;color:#676d63;margin:10px auto 0;max-width:470px}.grade-photo{display:none;width:min(100%,380px);max-height:270px;object-fit:cover;margin:20px auto 0;border-radius:8px;border:1px solid #deddd3}
+.review{margin-top:27px;line-height:1.9;font-size:14px;color:#4e544c}.review h3{font-size:14px;color:var(--ink);margin:23px 0 6px}.final-comment{background:var(--ink);color:#fff;padding:18px;border-radius:7px;line-height:1.85;font-size:13px}.notice{color:#92948b;font-size:10px;line-height:1.7;margin-top:23px}.share-actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:20px}.share-button{padding:13px;background:var(--green);color:white}.share-button:hover{background:#40563f}.share-button:disabled{opacity:.6;cursor:wait}.result-actions{display:flex;justify-content:center;margin-top:12px}
+footer{text-align:center;margin-top:29px;font-size:10px;color:#a1a198;line-height:1.8}
+@media(max-width:520px){body{padding:12px 9px}.grade-guide{gap:6px}.grade-card{padding:10px 3px}.grade-card span{font-size:9px}.share-actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="container">
+<header>
+  <h1>쓸데없이 진지한<br>결석 합리적 연구소</h1>
+</header>
+
+<section id="formScreen" class="screen active">
+  <p class="intro">모든 결석에는 나름의 이유가 있습니다.<br>사유를 제출하면 연구소가 점수와 등급을 매겨드립니다.</p>
+  <div class="section">
+    <label class="section-title" for="reason">Ⅰ. 결석 사유 접수</label>
+    <textarea id="reason" placeholder="결석하게 된 이유를 솔직하게 작성해 주세요.&#10;&#10;예: 게임 이벤트가 오늘까지라 수업에 가고 싶지 않습니다."></textarea>
+    <button class="primary" type="button" onclick="analyze()">연구소 심사 요청하기</button>
+  </div>
+</section>
+
+<section id="loadingScreen" class="screen loading-screen" aria-live="polite">
+  <div class="loading-mark" id="spinner"></div>
+  <h2 id="loadingTitle">연구소 심사 진행 중...</h2>
+  <p id="loadingMessage">제출된 사유를 꼼꼼히 검토하고 있습니다.</p>
+  <div class="loading-track" role="progressbar" aria-label="심사 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="loading-fill" id="loadingFill"></div></div>
+  <div class="loading-percent" id="loadingPercent">0%</div>
+  <button class="primary" id="showResultButton" type="button" onclick="showResult()" disabled>결과 보기</button>
+</section>
+
+<section id="resultScreen" class="screen">
+  <article id="reportCard">
+    <div class="report-header"><h2>결석 사유 심사 결과 보고서</h2><p id="date"></p></div>
+    <div class="section-title">Ⅱ. 제출된 사유</div>
+    <div class="reason-box" id="submittedReason"></div>
+    <div class="section-title" style="margin-top:28px">Ⅲ. 연구소 평가 결과</div>
+    <div id="scores"></div>
+    <div class="verdict">
+      <div class="verdict-kicker">FINAL RESEARCH GRADE</div>
+      <div class="grade" id="grade"></div>
+      <div class="verdict-title" id="gradeTitle"></div>
+      <p class="grade-description" id="gradeDescription"></p>
+      <img class="grade-photo" id="gradePhoto" alt="등급별 연구소 사진">
+    </div>
+    <div class="review">
+      <h3>Ⅳ. 대리출석 적합성 심사</h3>
+      <div id="proxyResult"></div>
+      <h3>Ⅴ. 심사위원 종합 의견</h3>
+      <div class="final-comment" id="comment"></div>
+    </div>
+    <div class="notice">※ 본 심사는 연구소의 자체적인 유머 및 풍자 기준에 따른 비공식 평가입니다. 실제 출석 인정이나 대리출석의 정당성을 보장하지 않습니다.</div>
+  </article>
+  <div class="share-actions">
+    <button class="share-button" type="button" onclick="shareResult()">결과지 공유하기</button>
+    <p class="notice">※ 공유 링크에는 입력한 결석 사유가 포함됩니다.</p>
+  </div>
+  <div class="result-actions">
+    <button class="secondary" type="button" onclick="goHome()">새로운 사유 심사하기</button>
+  </div>
+</section>
+
+<footer>쓸데없이 진지한 결석 합리적 연구소<br>본 연구소는 모든 결석 사유의 학문적 정당성을 탐구합니다.</footer>
+</main>
+
+<script>
+// 등급별 사진 파일 경로입니다. 각 등급에서 두 장 중 한 장을 무작위로 표시합니다.
+// 사진 파일은 HTML 파일 옆의 images 폴더에 넣어주세요.
+const GRADE_IMAGES = {
+  S: ['images/grade-s.jpg', 'images/grade-s-2.jpg'],
+  A: ['images/grade-a.jpg', 'images/grade-a-2.jpg'],
+  B: ['images/grade-b.jpg', 'images/grade-b-2.jpg'],
+  C: ['images/grade-c.jpg', 'images/grade-c-2.jpg']
+};
+
+let currentResult = null;
+let progressTimer = null;
+
+function setScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function analyze() {
+  const reason = document.getElementById('reason').value.trim();
+
+  if (!reason) {
+    alert('결석 사유를 먼저 입력해 주세요.');
+    return;
+  }
+
+  currentResult = evaluateReason(reason);
+  renderResult(currentResult);
+  setScreen('loadingScreen');
+  startProgress();
+}
+
+function evaluateReason(reason) {
+  let validity = 35;
+  let necessity = 30;
+  let urgency = 30;
+  const text = reason.toLowerCase().normalize('NFC').replace(/\s+/g, ' ');
+
+  // 각 유형은 키워드가 여러 개 일치해도 한 번만 반영합니다.
+  const categories = [
+    // 건강 및 치료
+    { words: ['아파','아픔','몸살','열이 나','고열','미열','기침','감기','독감','코로나','인후통','목감기','콧물','두통','편두통','복통','배탈','장염','식중독','구토','설사','어지러','어지럼','현기증','통증','허리 통증','생리통','알레르기','천식','피부염','염증','골절','삐었','다쳤','부상','수술','입원','응급실','진료','병원','의원','약 처방','약국','검사 예약','건강검진','치과','치료','회복 중','전염'], v:24, n:30, u:30 },
+    { words: ['숨이 차','호흡 곤란','가슴 통증','의식이','응급','119','수액','깁스','수술 일정','검사 결과','격리','전염성','고열이 계속','밤새 아팠'], v:28, n:32, u:35 },
+
+    // 정신 건강 및 돌봄
+    { words: ['불안','공황','우울','번아웃','정신적으로','심리 상담','상담 예약','수면 장애','불면증','스트레스가 심','마음이 힘들','정신건강','상담센터'], v:17, n:20, u:13 },
+    { words: ['간병','병간호','보호자','돌봐야','돌봄','간호','요양','아이를 봐','동생을 봐','가족을 챙겨','보호자 동행'], v:20, n:24, u:17 },
+    { words: ['반려견','강아지가 아','고양이가 아','반려묘','동물병원','반려동물 병원','펫 응급','반려동물 수술'], v:17, n:19, u:16 },
+
+    // 가족 및 경조사
+    { words: ['가족','집안일','장례','부모님','아버지','어머니','엄마','아빠','할머니','할아버지','형제','자매','친척','가족 모임','집안 행사','친척 모임'], v:20, n:23, u:19 },
+    { words: ['부고','발인','장례식','조문','입관','가족 응급','부모님이 아프','가족이 입원','가족 사고','보호자 필요','병원에 모셔'], v:27, n:30, u:31 },
+
+    // 학교 및 학업
+    { words: ['시험','중간고사','기말고사','쪽지시험','퀴즈','평가','실기시험','자격시험','시험 일정','시험 겹','시험 준비'], v:13, n:8, u:9 },
+    { words: ['과제','레포트','리포트','보고서','논문','발표','팀플','팀 프로젝트','조별 과제','마감','제출','프로젝트','실험','실습','공모전','졸업 작품','캡스톤','연구 발표'], v:12, n:7, u:6 },
+    { words: ['학교 행사','대회 출전','교내 대회','외부 대회','현장 실습','수강 신청','학사 일정','보강 수업','수업 변경','수업이 겹','강의가 겹','필수 교육'], v:13, n:10, u:9 },
+
+    // 교통 및 날씨
+    { words: ['지하철 지연','열차 지연','버스가 안','버스 지연','막차','대중교통','교통 통제','도로 통제','사고로 막혀','교통사고','차가 고장','차량 고장','타이어 펑크','택시가 안 잡','운행 중단','파업','철도 파업'], v:16, n:17, u:20 },
+    { words: ['폭우','폭설','눈이 많이','태풍','강풍','홍수','침수','산사태','한파','폭염','기상 특보','재난 문자','날씨가 안 좋','도로 결빙','항공편 결항','비행기 결항'], v:15, n:15, u:21 },
+    { words: ['날씨','소나기','미세먼지','황사','더위','추위','우천','빗길','날씨가 궂','비가 와','눈이 와'], v:7, n:3, u:5 },
+
+    // 공공 일정 및 예기치 못한 일
+    { words: ['예비군','민방위','병역','입대','훈련 소집','법원 출석','재판','경찰서 출석','주민센터','관공서','비자 인터뷰','여권 발급','공식 면접','채용 면접','장학금 면접'], v:16, n:19, u:13 },
+    { words: ['정전','단수','화재','누수','도난','분실','사고가 났','사고를 당','긴급 출동','인터넷이 끊','컴퓨터가 고장','노트북 고장','휴대폰 고장','집에 문제가','집 수리','보일러 고장'], v:12, n:13, u:15 },
+    { words: ['이사','이사 날짜','계약 만료','집 계약','택배 수령','수리 기사','집주인','가스 점검','소방 점검','가족 행사 준비'], v:5, n:5, u:3 },
+
+    // 개인 선택 및 준비 부족
+    { words: ['늦잠','알람을 못','알람 못','잠을 못 깨','잠이 많','너무 졸려','피곤해서','피곤하','잠을 더 자','아침에 못 일','늦게 일어'], v:3, n:-8, u:-9 },
+    { words: ['잠을 자느라','잠 때문에','잠이 와서','수면 부족','밤을 새','밤샘','새벽까지','야근 후','피로','졸려','컨디션이 별로','귀찮','나가기 싫','가기 싫','그냥 쉬고 싶'], v:2, n:-5, u:-5 },
+    { words: ['게임','게임하느라','게임 이벤트','게임 대회','랭크전','레이드','콘서트','페스티벌','축제','여행','놀러','놀고 싶','친구 만나','친구 약속','술 약속','데이트 약속','데이트','쇼핑','영화 보러','집에서 쉬','취미 생활'], v:-7, n:-12, u:-13 },
+    { words: ['깜빡','잊어버렸','까먹','준비를 안','준비 못','미리 안','늦게 준비','계획을 잘못','시간 계산을 잘못','귀찮아서','하기 싫어서','마음이 바뀌','그냥 안 가'], v:-6, n:-10, u:-9 }
+  ];
+
+  categories.forEach(category => {
+    if (category.words.some(word => text.includes(word))) {
+      validity += category.v;
+      necessity += category.n;
+      urgency += category.u;
+    }
+  });
+
+  validity = clamp(validity, 5, 100);
+  necessity = clamp(necessity, 5, 100);
+  urgency = clamp(urgency, 5, 100);
+  const total = Math.round((validity + necessity + urgency) / 3);
+
+  const tiers = [
+    { min: 85, grade: 'S', title: '교수님도 결석 허락할 사유입니다.', description: '연구소는 제출된 사유에 상당한 타당성이 있다고 판단합니다.', proxy: '사유에 대한 충분한 이해가 가능합니다. 다만 출석은 본인의 실제 참여를 기준으로 관리해야 합니다.', comment: '본 사유는 상당한 설득력을 보유하고 있습니다. 연구소는 대상자의 상황을 깊이 이해하며, 무리한 출석보다 상황을 우선적으로 고려할 것을 권고합니다.' },
+    { min: 70, grade: 'A', title: '오늘은 쉬어도 양심에 찔리지 않겠습니다.', description: '결석 사유가 상당 부분 이해 가능하며 일정 수준의 정당성을 확보했습니다.', proxy: '대리출석을 부탁하고 싶은 마음은 이해되나, 실제 출석을 대신 기록하는 행위는 정당화되지 않습니다.', comment: '대상자의 사유는 충분히 검토할 가치가 있습니다. 본 연구소는 불필요한 죄책감을 경감할 것을 권고합니다.' },
+    { min: 45, grade: 'B', title: '흠… 이건 좀 그런데요?', description: '일부 공감 요소가 있으나 결석의 불가피성을 입증하기에는 다소 부족합니다.', proxy: '대리출석 적합성이 낮습니다. 본인의 여가와 학업 사이에서 균형을 찾을 필요가 있습니다.', comment: '대상자의 심정은 이해할 수 있으나, 해당 사유만으로 출석 의무를 면제하기에는 논리적 근거가 부족합니다. 다만 스스로를 지나치게 비난할 필요는 없습니다.' },
+    { min: 0, grade: 'C', title: '결석 사유보다 출석할 의지가 더 필요합니다.', description: '개인적 욕구는 인정되나 결석의 불가피성을 확인하기 어렵습니다.', proxy: '대리출석을 정당화할 근거가 부족합니다. 실제 출석 여부를 정확하게 기록할 것을 권고합니다.', comment: '본 연구소는 대상자의 솔직함에 높은 점수를 부여합니다. 그러나 솔직한 욕구와 합당한 결석 사유는 별개의 문제입니다. 다음에는 욕구를 줄이는 방안을 검토하십시오.' }
+  ];
+
+  const tier = tiers.find(item => total >= item.min);
+  return { reason, validity, necessity, urgency, total, ...tier };
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function renderResult(result) {
+  document.getElementById('date').textContent =
+    '심사일: ' + new Date().toLocaleDateString('ko-KR');
+
+  document.getElementById('submittedReason').textContent = result.reason;
+
+  const scoreData = [
+    ['사유 타당성', result.validity],
+    ['불가피성', result.necessity],
+    ['긴급성', result.urgency]
+  ];
+
+  document.getElementById('scores').innerHTML = scoreData.map(([label, score]) => `
+    <div class="score-item">
+      <div class="score-label">
+        <span>${label}</span>
+        <span>${score}점 / 100점</span>
+      </div>
+      <div class="progress">
+        <div class="bar" data-score="${score}"></div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('grade').textContent = result.grade;
+  document.getElementById('gradeTitle').textContent = `${result.title}`;
+  document.getElementById('gradeDescription').textContent = result.description;
+  document.getElementById('proxyResult').textContent = result.proxy;
+  document.getElementById('comment').textContent = result.comment;
+
+  const photo = document.getElementById('gradePhoto');
+  photo.style.display = 'none';
+  photo.onload = () => { photo.style.display = 'block'; };
+  photo.onerror = () => { photo.style.display = 'none'; };
+  const gradeImages = GRADE_IMAGES[result.grade] || [];
+  photo.src = gradeImages[Math.floor(Math.random() * gradeImages.length)] || '';
+}
+
+function startProgress() {
+  if (progressTimer) clearInterval(progressTimer);
+
+  let progress = 0;
+  const fill = document.getElementById('loadingFill');
+  const percent = document.getElementById('loadingPercent');
+  const button = document.getElementById('showResultButton');
+  const bar = document.querySelector('[role="progressbar"]');
+  const title = document.getElementById('loadingTitle');
+  const message = document.getElementById('loadingMessage');
+  const spinner = document.getElementById('spinner');
+
+  button.disabled = true;
+  button.textContent = '심사 중...';
+  title.textContent = '연구소 심사 진행 중...';
+  message.textContent = '제출된 사유를 꼼꼼히 검토하고 있습니다.';
+  spinner.style.display = 'block';
+  fill.style.width = '0%';
+  percent.textContent = '0%';
+  bar.setAttribute('aria-valuenow', '0');
+
+  progressTimer = setInterval(() => {
+    progress = Math.min(100, progress + (progress < 70 ? 4 : 2));
+    fill.style.width = `${progress}%`;
+    percent.textContent = `${progress}%`;
+    bar.setAttribute('aria-valuenow', String(progress));
+
+    if (progress >= 100) {
+      clearInterval(progressTimer);
+      progressTimer = null;
+      spinner.style.display = 'none';
+      title.textContent = '심사가 완료되었습니다';
+      message.textContent = '아래 버튼을 눌러 연구소의 결과 보고서를 확인하세요.';
+      button.disabled = false;
+      button.textContent = '결과 보기';
+    }
+  }, 70);
+}
+
+function showResult() {
+  if (!currentResult || document.getElementById('showResultButton').disabled) {
+    return;
+  }
+
+  setScreen('resultScreen');
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.bar').forEach(bar => {
+      bar.style.width = `${bar.dataset.score}%`;
+    });
+  });
+}
+
+async function shareResult() {
+  if (!currentResult) {
+    alert('공유할 심사 결과가 없습니다.');
+    return;
+  }
+
+  const shareUrl = new URL(window.location.href);
+  shareUrl.hash = new URLSearchParams({ reason: currentResult.reason }).toString();
+
+  const shareData = {
+    title: '결석 사유 심사 결과',
+    text: `${currentResult.grade}등급 심사 결과를 확인해 보세요.`,
+    url: shareUrl.toString()
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(shareUrl.toString());
+      alert('결과지 링크를 복사했습니다.');
+    }
+  } catch (error) {
+    if (error.name === 'AbortError') return;
+    window.prompt('아래 결과지 링크를 복사해 공유해 주세요.', shareUrl.toString());
+  }
+}
+
+function goHome() {
+  currentResult = null;
+  document.getElementById('reason').value = '';
+  setScreen('formScreen');
+}
+
+function loadSharedResult() {
+  const params = new URLSearchParams(window.location.hash.slice(1));
+  const reason = params.get('reason');
+  if (!reason || !reason.trim()) return;
+
+  currentResult = evaluateReason(reason);
+  renderResult(currentResult);
+  setScreen('resultScreen');
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.bar').forEach(bar => {
+      bar.style.width = `${bar.dataset.score}%`;
+    });
+  });
+}
+
+loadSharedResult();
+</script>
+</body>
+</html>
